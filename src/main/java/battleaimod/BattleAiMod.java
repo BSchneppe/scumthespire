@@ -50,6 +50,7 @@ import savestate.SaveState;
 import savestate.SaveStateMod;
 import savestate.fastobjects.ScreenShakeFast;
 
+import java.awt.event.WindowEvent;
 import java.io.IOException;
 import java.net.ServerSocket;
 import java.net.Socket;
@@ -60,6 +61,7 @@ import java.util.Iterator;
 import java.util.function.Function;
 
 import static com.megacrit.cardcrawl.dungeons.AbstractDungeon.actionManager;
+import static javax.swing.WindowConstants.DISPOSE_ON_CLOSE;
 import static ludicrousspeed.LudicrousSpeedMod.controller;
 import static ludicrousspeed.LudicrousSpeedMod.plaidMode;
 
@@ -112,6 +114,11 @@ public class BattleAiMod implements PostInitializeSubscriber, PostUpdateSubscrib
         // Shut off the MTS console window, It increasingly slows things down
         ModSelectWindow window = ReflectionHacks.getPrivateStatic(Loader.class, "ex");
         window.removeAll();
+        window.setDefaultCloseOperation(DISPOSE_ON_CLOSE);
+        window.dispatchEvent(new WindowEvent(window, WindowEvent.WINDOW_CLOSING));
+        window.setVisible(false);
+        Loader.closeWindow();
+
 
         CardCrawlGame.screenShake = new ScreenShakeFast();
 
